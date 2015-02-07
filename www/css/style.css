@@ -1,0 +1,26 @@
+/* Empty. Add your own CSS if you like */
+.listContacts .face {
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  margin: 16px;
+  width: 48px;
+}
+.sr-only {
+  display: none;
+}
+
+a.a-item {
+  text-decoration: none;
+}
+
+.pull-right {
+  float: right !important;
+}
+.tx-add-button {
+  display : inline;
+}
+.tx-header-search {
+  width: 300px;
+  text-align: center;
+  float: right;
+}

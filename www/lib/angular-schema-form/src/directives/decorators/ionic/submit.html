@@ -1,0 +1,13 @@
+<!-- upd: 2014-02-06 -->
+<div class="list schema-form-submit {{form.htmlClass}}">
+  <input type="submit"
+         class="button {{ form.style || 'button-positive' }} {{form.fieldHtmlClass}}"
+         value="{{form.title}}"
+         ng-disabled="form.readonly"
+         ng-if="form.type === 'submit'">
+  <button class="button {{ form.style || 'button-positive' }}"
+          type="button"
+          ng-click="buttonClick($event,form)"
+          ng-disabled="form.readonly"
+          ng-if="form.type !== 'submit'">{{form.title}}</button>
+</div>

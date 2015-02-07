@@ -1,0 +1,20 @@
+<!-- upd: 2014-02-06 -->
+<div class="list {{form.htmlClass}} schema-form-select"
+     ng-class="{'has-error': hasError(), 'has-success': hasSuccess(), 'has-feedback': form.feedback !== false}">
+  <label class="item item-input item-select"
+         ng-class="{'sr-only': !showTitle()}">
+    <span class="input-label">{{form.title}}</span>
+    <select ng-model="$$value$$"
+            ng-model-options="form.ngModelOptions"
+            ng-disabled="form.readonly"
+            sf-changed="form"
+            class="form-control {{form.fieldHtmlClass}}"
+            schema-validate="form"
+            ng-options="item.value as item.name for item in form.titleMap"
+            name="{{form.key.slice(-1)[0]}}">
+    </select>
+    <div class="help-block"
+         ng-show="(hasError() && errorMessage(schemaError())) || form.description"
+         ng-bind-html="(hasError() && errorMessage(schemaError())) || form.description"></div>
+  </label>
+</div>

@@ -1,0 +1,22 @@
+<!-- upd: 2014-02-06 -->
+<div class="list schema-form-checkbox {{form.htmlClass}}"
+     ng-class="{'has-error': hasError(), 'has-success': hasSuccess()}">
+  <div class="item item-toggle">
+    <span class="input-label">{{form.title}}</span>
+    <label class="toggle">
+      <input type="checkbox"
+             sf-changed="form"
+             ng-disabled="form.readonly"
+             ng-model="$$value$$"
+             ng-model-options="form.ngModelOptions"
+             schema-validate="form"
+             class="{{form.fieldHtmlClass}}"
+             name="{{form.key.slice(-1)[0]}}">
+      <div class="track">
+        <div class="handle"> </div>
+      </div>
+    </label>
+
+    <div class="help-block" ng-show="form.description" ng-bind-html="form.description"></div>
+  </div>
+</div>
