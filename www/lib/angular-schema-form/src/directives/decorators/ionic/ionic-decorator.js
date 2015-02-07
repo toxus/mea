@@ -21,6 +21,7 @@ angular.module('schemaForm').config(['schemaFormDecoratorsProvider', function(de
     'radios-inline': base + 'radios-inline.html',
     radiobuttons: base + 'radio-buttons.html',
     help: base + 'help.html',
+    info : base + 'info.html',
     'default': base + 'default.html'
   }, [
     // function(form) {
@@ -46,6 +47,7 @@ angular.module('schemaForm').config(['schemaFormDecoratorsProvider', function(de
     input: base + 'default.html',
     radios: base + 'radios.html',
     'radios-inline': base + 'radios-inline.html',
+    info : base + 'info.html',
     radiobuttons: base + 'radio-buttons.html',
   });
 

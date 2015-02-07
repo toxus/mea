@@ -8,6 +8,7 @@ var templateCache = require('gulp-angular-templatecache');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var del = require('del');
+var cleanhtml = require('gulp-cleanhtml')
 
 gulp.task('default', function () {
   console.log('merge html');
@@ -16,9 +17,10 @@ gulp.task('default', function () {
       root: 'directives/decorators/ionic/',
       module : 'schemaForm'
     }))
+   // .pipe(cleanhtml())
     .pipe(gulp.dest('temp'));
 
-  del(['dist/ionic-decorator.js','dist/ionic-decorator.min.js']);
+  // del(['dist/ionic-decorator.js','dist/ionic-decorator.min.js']);
 
   console.log('merging definition');
   gulp.src(['temp/templates.js', 'src/directives/decorators/ionic/ionic-decorator.js'])
