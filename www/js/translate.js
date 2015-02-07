@@ -4,6 +4,7 @@ angular.module('app')
     // menu.html
     'Agenda': 'Agenda',
     'Contacts' : 'Contacts',
+    'Todo'     : 'Todo',
     'Settings' : 'Preference',
     // contacts/index
     'Search' : 'Search',
@@ -19,6 +20,7 @@ angular.module('app')
     // menu.html
     'Agenda': 'Agenda',
     'Contacts' : 'Contacten',
+    'Todo'     : 'Aandachtspunten',
     'Settings' : 'Instellingen',
     // contacts/index
     'Search' : 'Zoeken',
