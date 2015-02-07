@@ -1,21 +1,28 @@
-<ion-view title="Contact" ng-controller="ContactDetailController as contact">
-  <form name="contactForm"
-        ng-submit="contact.onSubmit(contactForm)">
-    <ion-header-bar class="bar-positive">
-      <div class="bar bar-header bar-positive" ng-controller="AppController as app">
-        <button class="button button-outlinezz icon ion-arrow-left-c" ng-click="app.goBack()">Back</button>
-        <h1 class="title">Header Buttons</h1>
-        <input type="submit" value="Save" class="button icon ion-edit" ng-click="contact.edit()" />
-      </div>
-    </ion-header-bar>
 
-    <ion-content>
-      <h1>edit the content</h1>
+
+<ion-view ng-controller="ContactDetailController as contact"
+          cache="false">
+
+  <ion-nav-title>
+    Contact - {{ contact.caption }}
+  </ion-nav-title>
+
+  <ion-nav-buttons side="right">
+    <button class="button icon ion-save button-clear" ng-click="contact.submit()">{{ "Save" | translate }}</button>
+  </ion-nav-buttons>
+
+
+  <ion-content>
+    <form name="form"
+          ng-submit="contact.onSubmit(contactForm)">
+
+      <h1>edit the content 2</h1>
       <div sf-schema="contact.jsonForm"
            sf-form="contact.form"
            sf-model="contact.person">
-
       </div>
-    </ion-content>
-  </form>
+    </form>
+  </ion-content>
+
 </ion-view>
+

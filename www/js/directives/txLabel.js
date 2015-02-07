@@ -5,6 +5,6 @@ angular.module('app')
       scope: {
         caption : '@'
       },
-      template: '<div class="tx-label">{{ caption }}:</div>'
+      template: '<div class="tx-label">{{ caption | translate }}:</div>'
     }
   });

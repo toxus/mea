@@ -34,7 +34,14 @@ angular.module('app')
           }
         }
       })
-
+      .state('app.contact-edit', {
+        url :'/contact-edit/:contactId',
+        views : {
+          'menuContent': {
+            templateUrl :'contacts/form.html'
+          }
+        }
+      })
       .state('app.playlists', {
         url: "/playlists",
         views: {

@@ -8,7 +8,7 @@
   <ion-nav-title>
     <label class="item item-input tx-header-search">
       <i class="icon ion-search placeholder-icon"></i>
-      <input type="search" placeholder="Search">
+      <input type="search" placeholder="{{ 'Search' | translate }}">
     </label>
   </ion-nav-title>
 
@@ -25,36 +25,15 @@
 -->
 
   <ion-content padding="true">
-
-    <md-list>
-      <md-item ng-repeat="person in contacts.contacts" >
-        <a class="a-item" target="_self"  href="#/app/contact/{{ person._id }}">
-        <md-item-content>
-          <div class="md-tile-left">
-            <img ng-src="images/60.jpeg" class="face" alt="{{ person.name [0].value}}">
-          </div>
-          <div class="md-tile-content">
-            <h3>This is the man</h3>
-            <h4>{{ person.name[0].value}}</h4>
-            <p>
-              {{ person.notes}}
-            </p>
-          </div>
-        </md-item-content>
-        </a>
-      </md-item>
-    </md-list>
-
-    <!--
-    <ion-list>
-      <ion-item ng-repeat="person in contacts.contacts"
-                class="item item-icon-right"
-                href="#/tab/contact/{{ person.id }}"
-        >
-        <span>{{ person.name }}</span>
-      </ion-item>
-    </ion-list>
-    -->
+    <div class="list">
+      <a class="item item-avatar" href="#/app/contact/{{ person._id }}"  ng-repeat="person in contacts.contacts">
+        <img src="images/60.jpeg">
+        <h2>{{ person.name[0].value}}</h2>
+        <p>
+          {{ person.notes}}
+        </p>
+      </a>
+    </div>
   </ion-content>
 </ion-view>
 

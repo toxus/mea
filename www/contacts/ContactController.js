@@ -78,7 +78,7 @@ angular.module('app')
      */
     this.edit = function() {
       //$log.info('switch to edit', _vm.person);
-      $state.go('tab.contact-edit', { contactId : _vm.model._id});
+      $state.go('app.contact-edit', { contactId : _vm.model._id});
     }
 
     this.onSubmit = function() {
