@@ -3,12 +3,12 @@
  */
 
 angular.module('app')
-  .factory('PouchListener', ['$rootScope', '$log', function($rootScope, $log) {
+  .factory('PouchListener', ['$rootScope', '$log', 'db', function($rootScope, $log, db) {
 
     var listeners = [];
 
     function startChanges(options) {
-      localDB.changes({
+      db.local.changes({
         continuous: true,
         since: options.since,
 
@@ -22,31 +22,31 @@ angular.module('app')
         }
 
       })
-        .on('create', function (evtInfo) {
-          $rootScope.$apply(function () {
-            // $log.info('add:', evtInfo);
-            localDB.get(evtInfo.id, function (err, doc) {
-              $rootScope.$apply(function () {
-                if (err) console.log(err);
-                $rootScope.$broadcast(options.event +'.create', doc);
-              })
-            });
-          });
-        })
-        .on('update', function (evtInfo) {
-          $rootScope.$apply(function () {
-            localDB.get(evtInfo.id, function (err, doc) {
-              if (doc.type==options.type) {
-                $log.info('update:', evtInfo);
-                $rootScope.$apply(function () {
-                  if (err) console.log(err);
-                  $log.log('broadcast', options.event +'.update');
-                  $rootScope.$broadcast(options.event +'.update', doc);
-                })
-              };
-            });
+      .on('create', function (evtInfo) {
+        $rootScope.$apply(function () {
+          // $log.info('add:', evtInfo);
+          db.local.get(evtInfo.id, function (err, doc) {
+            $rootScope.$apply(function () {
+              if (err) console.log(err);
+              $rootScope.$broadcast(options.event +'.create', doc);
+            })
           });
         });
+      })
+      .on('update', function (evtInfo) {
+        $rootScope.$apply(function () {
+          db.local.get(evtInfo.id, function (err, doc) {
+            if (doc.type==options.type) {
+              $log.info('update:', evtInfo);
+              $rootScope.$apply(function () {
+                if (err) console.log(err);
+                $log.log('broadcast', options.event +'.update');
+                $rootScope.$broadcast(options.event +'.update', doc);
+              })
+            };
+          });
+        });
+      });
     };
 
     return {

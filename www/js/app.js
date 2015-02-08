@@ -18,10 +18,10 @@ angular.module('app', ['ionic', 'ngCordova', 'starter.controllers','schemaForm',
       StatusBar.styleDefault();
     }
     user.init().then(function() {
+      db.connect();
       if (navigator.splashScreen) {
         navigator.splashScreen.hide();
       }
-      db.connectRemote();
       $location.path('/agenda');
     });
     $location.path('/init');

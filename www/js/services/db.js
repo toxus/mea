@@ -6,18 +6,19 @@
  */
 angular.module('app')
  .factory('db', ['$log', 'user', function($log, user) {
+    this.isConnected = false;
     this.local = {};
     this.remote = {};
 
     return {
-      connectRemote : function() {
-        $log.log('Connecting remote: ', user.remoteDbUrl());
+      connect : function() {
         this.local = new PouchDB('');
+        $log.log('Connecting remote: ', user.remoteDbUrl());
         this.remote = new PouchDB(user.remoteDbUrl());
-        console.log('local db:',this.local);
         this.local.sync(this.remote, { live: true});
+        this.isConnected = true;
       },
-      disconnectRemote : function() {
+      disconnect : function() {
         remoteDb = {};
       }
     }
