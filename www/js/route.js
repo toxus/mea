@@ -6,7 +6,7 @@ angular.module('app')
         url: "/app",
         abstract: true,
         templateUrl: "templates/menu.html",
-        controller: 'AppCtrl'
+        controller: 'AppController'
       })
 
       .state('app.agenda', {
@@ -42,12 +42,15 @@ angular.module('app')
           }
         }
       })
-      .state('app.playlists', {
-        url: "/playlists",
+      .state('init', {
+        url : '/init',
+        templateUrl: 'templates/init.html'
+      })
+      .state('app.agendas', {
+        url: "/agendas",
         views: {
           'menuContent': {
-            templateUrl: "templates/playlists.html",
-            controller: 'PlaylistsCtrl'
+            templateUrl: "agenda/index.html"
           }
         }
       })
@@ -62,5 +65,5 @@ angular.module('app')
         }
       });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/playlists');
+    $urlRouterProvider.otherwise('/app/agendas');
   });

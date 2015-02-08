@@ -5,14 +5,20 @@
  *
  */
 angular.module('app')
- .factory('db', function(user) {
+ .factory('db', ['$log', 'user', function($log, user) {
+    this.local = {};
+    this.remote = {};
+
     return {
       connectRemote : function() {
-        remoteDB = new PouchDB(user.remoteDbUrl());
-        localDB.sync(remoteDB, { live: true});
+        $log.log('Connecting remote: ', user.remoteDbUrl());
+        this.local = new PouchDB('');
+        this.remote = new PouchDB(user.remoteDbUrl());
+        console.log('local db:',this.local);
+        this.local.sync(this.remote, { live: true});
       },
       disconnectRemote : function() {
         remoteDb = {};
       }
     }
-  });
+  }]);

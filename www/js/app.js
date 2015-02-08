@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'ngCordova', 'starter.controllers','schemaForm', 'pascalprecht.translate'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $log, $location, user, db) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,15 @@ angular.module('app', ['ionic', 'ngCordova', 'starter.controllers','schemaForm',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    user.init().then(function() {
+      if (navigator.splashScreen) {
+        navigator.splashScreen.hide();
+      }
+      db.connectRemote();
+      $location.path('/agenda');
+    });
+    $location.path('/init');
   });
-})
+});
+
 

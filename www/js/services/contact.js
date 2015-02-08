@@ -30,28 +30,33 @@ angular.module('app')
         icon        : 'ion-person',
         type        : 'string',
         isMaster    : true,
-        isSingle    : true,      // only one name allowed
-        required    : true,
-        showOn      : ['insert', 'update']      // when to show. If not it's placed in optional list
-      },
-      isMale :       {
-        labels      : ['gender'],
-        type        : 'boolean',
-        isSingle    : true     // only one name allowed
+        isArray     : false,      // only one name allowed
+        isRequired    : true,
+        showOn      : ['insert', 'update'],      // when to show. If not it's placed in optional list
+        validationMessage: {
+          "default": "The name is required"
+        }
       },
       telephone : {
         labels  : ['telephone', 'mobile', 'work'],
         icon    : 'ion-android-call',
+        isArray : false,      // only one name allowed
         type    : 'string'
       },
       email: {
         labels  : ['email', 'public', 'private'],
         icon    : 'ion-android-mail',
-        type    : 'email'
+        isArray : false,      // only one name allowed
+        type    : 'string',
+        html5type : 'email',
+        validationMessage: {
+          "default": "Email address is not valid"
+        }
       },
       location : {
-        label : ['home', 'work'],
-        icon  : 'ion-android-pin'
+        label   : ['home', 'work'],
+        isArray : false,      // only one name allowed
+        icon    : 'ion-android-pin'
       }
     };
     var _vm = this;
@@ -72,7 +77,6 @@ angular.module('app')
         } else {
           return _vm.fields[fieldIndex].labels[0];
         }
-      } else {
         return fieldIndex;
       }
     }
@@ -93,9 +97,7 @@ angular.module('app')
           //$log.info('looping',_vm.tmpUsers.length);
           for (var index = 0, len = _vm.tmpUsers.length; index < len; ++index) {
             if (_vm.tmpUsers[index]._id == id) {
-            //  $log.info('found', _vm.tmpUsers[index]);
               deferred.resolve(_vm.tmpUsers[index]);
-//              $rootScope.$apply();
               return;
             }
           };
@@ -156,44 +158,30 @@ angular.module('app')
         return result;
       },
       /**
+       * read the information from contact and put them so jsonForm can handle it
+       */
+      model : function(data) {
+        var result = [];
+        for (var def in data) {
+          if (data.hasOwnProperty(def)) {
+            if (typeof _vm.fields[def] !== 'undefined') { // field is editable
+              var f = data[def];
+              var item = {};
+              if (!f.isArray) {
+                result[def] = f[0].value
+              } else {
+                $log.warning('contact.model: the array fields are not implemented');
+              }
+            }
+          }
+        }
+        return result;
+      },
+      /**
        * convert the current information into the json form definition
-       * @param data the contact data to edit
-       * @param isUpdate boolean if true the action is an update action
        */
       jsonForm : function() {
-        var result = {};
-        for (fieldId in _vm.fields) {
-          var fieldDef = _vm.fields[fieldId];
-          var item = {};
-          if (fieldDef.isSingle) {
-            item.title = _labelFromDef({}, fieldId );
-            item.type  = typeof fieldDef.type === 'undefined' ? 'string' : fieldDef.type;
-          } else {  // it's an array
-            item.type = 'array';
-            if (fieldDef.maxItems) { item.maxItems = fieldDef.maxItems; }
-            // if a multi field array definition change it here
-            var items = {
-              type: 'object',
-              properties : {}
-            };
-            items.properties.labels = {
-               type : 'string',
-               title : 'label'
-            };
-            items.properties.value = {
-              type : 'string'
-            }
-            item.items = items;
-          }
-          result[fieldId] = item;
-        }
-
-        var a = {
-          type : "object",
-          properties : result
-        };
-        $log.log('contact.jsonForm', a);
-        return a;
+        return util.jsonForm(_vm.fields);
       }
     };
   }]);

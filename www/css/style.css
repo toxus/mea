@@ -20,7 +20,13 @@ a.a-item {
   display : inline;
 }
 .tx-header-search {
-  width: 300px;
+  width: 50%;
   text-align: center;
   float: right;
+}
+.help-block {
+  color : red;
+}
+label.item.has-error {
+  border-bottom: 2px solid red;
 }

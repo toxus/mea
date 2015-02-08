@@ -8,19 +8,20 @@
   </ion-nav-title>
 
   <ion-nav-buttons side="right">
-    <button class="button icon ion-save button-clear" ng-click="contact.submit()">{{ "Save" | translate }}</button>
+    <button class="button icon ion-save button-clear" ng-click="contact.doSubmit()">{{ "Save" | translate }}</button>
   </ion-nav-buttons>
 
 
   <ion-content>
-    <form name="form"
-          ng-submit="contact.onSubmit(contactForm)">
-
-      <h1>edit the content 2</h1>
+    <form id="ngForm"
+          name="ngForm"
+          ng-submit="contact.submit(ngForm)"
+          novalidate="" >
       <div sf-schema="contact.jsonForm"
            sf-form="contact.form"
            sf-model="contact.person">
       </div>
+      <input type="submit" id="submitForm" style="display:none">
     </form>
   </ion-content>
 

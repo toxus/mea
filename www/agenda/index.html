@@ -1,0 +1,10 @@
+<ion-view view-title="Playlists"
+          ng-controller="AgendaController as agenda">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="playlist in agenda.playlists" href="#/app/playlists/{{playlist.id}}">
+        {{playlist.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

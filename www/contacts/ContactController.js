@@ -24,7 +24,7 @@ angular.module('app')
    });
 
 angular.module('app')
-  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', 'contact', function($scope, $stateParams, $log, $state, contact) {
+  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', 'contact', function($scope, $stateParams, $log, $state, $timeout, contact) {
 
     var _vm = this;
 
@@ -48,16 +48,17 @@ angular.module('app')
     };
 
     this.form = [
-      "*",
+      "*" /* ,
       {
         type: "submit",
         title: "Save"
       }
+*/
     ];
 
     this.model = {};
     this.person = {
-      name : 'Jaap'
+      name : 'Jaap o'
     };
     // ----
 
@@ -65,7 +66,7 @@ angular.module('app')
       $log.info('do it');
       contact.get($stateParams.contactId).then(function(person) {
         _vm.model = person;
-
+        _vm.person = contact.model(person);
         _vm.viewFields = contact.viewFields(person);
         _vm.caption = contact.caption(person);
       })
@@ -81,7 +82,27 @@ angular.module('app')
       $state.go('app.contact-edit', { contactId : _vm.model._id});
     }
 
-    this.onSubmit = function() {
-      $log.info('submitting form: ', this.model);
+    this.doSubmit = function() {
+      $log.log('do submit');
+      $('#ngForm').submit();
+    }
+    this.doSubmit = function() {
+      var v = document.getElementById('submitForm');
+      $timeout(function() {
+       v.click();
+      },10);
+
+    }
+
+    this.submit = function(form) {
+      $log.info('submitting form: ', this.person);
+      if (typeof form === 'undefined') {
+        form = _vm.ngForm;
+      }
+      if (form.$valid) {
+        alert('Valid');
+      } else {
+        alert('failed');
+      }
     }
   }]);

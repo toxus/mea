@@ -13,7 +13,9 @@ angular.module('app')
     'Cancel' : 'Cancel',
     'name'  : 'name',
     'telephone' : 'telephone',
-    'email' : 'email'
+    'email' : 'email',
+    // contact.form
+    'The name is required'  : 'The name is required'
   });
 
   $translateProvider.translations('nl', {
@@ -29,7 +31,9 @@ angular.module('app')
     'Cancel' : 'Annuleer',
     'name'  : 'naam',
     'telephone' : 'telefoon',
-    'email' : 'email'
+    'email' : 'email',
+    // contact/form
+    'The name is required' : 'De naam is verplicht'
   });
   $ionicConfigProvider.backButton.text('');
 
