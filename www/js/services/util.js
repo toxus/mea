@@ -36,7 +36,8 @@ angular.module('app')
         return typeof obj !== 'undefined';
       },
       /**
-       * convert the internal definition to the json definition
+       * convert the internal definition to the json definition the can show the form
+       *
        * @param formDef
        */
       jsonForm : function(formDef) {
@@ -86,6 +87,28 @@ angular.module('app')
         };
         $log.log('jsonForm:', a);
         return a;
+      },
+      /**
+       * convert the data into the model definition that can be used by the jsonForm
+       * @param data      the data from the PouchDB
+       * @param formDef   the definition of the jsonForm
+       */
+      dataToModel : function(data, formDef) {
+        var result = [];
+        for (var def in data) {
+          if (data.hasOwnProperty(def)) {
+            if (this.isDefined(formDef[def] )) { // field is editable
+              var f = data[def];
+              var item = {};
+              if (!f.isArray) {
+                result[def] = f[0].value
+              } else {
+                $log.warning('util.dataToModell: the array fields are not implemented');
+              }
+            }
+          }
+        }
+        return result;
       }
 
     }

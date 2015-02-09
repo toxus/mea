@@ -34,6 +34,10 @@ angular.module('app')
     this.caption = {};
     // the calculate form to edit this contact
     this.jsonForm = contact.jsonForm();
+    // the model loaded from the disk
+    this.model = {};
+    // the model that edited by the form
+    this.workingModel = {};
 
     // ----
     this.schema = {
@@ -48,12 +52,7 @@ angular.module('app')
     };
 
     this.form = [
-      "*" /* ,
-      {
-        type: "submit",
-        title: "Save"
-      }
-*/
+      "*"
     ];
 
     this.model = {};
@@ -63,12 +62,11 @@ angular.module('app')
     // ----
 
     if ($stateParams.contactId) {
-      $log.info('do it');
-      contact.get($stateParams.contactId).then(function(person) {
-        _vm.model = person;
-        _vm.person = contact.model(person);
-        _vm.viewFields = contact.viewFields(person);
-        _vm.caption = contact.caption(person);
+      contact.get($stateParams.contactId).then(function(data) {
+        _vm.model = data;
+        _vm.workingModel = contact.model(data);
+        _vm.viewFields = contact.viewFields(data);
+        _vm.caption = contact.caption(data);
       })
     } else {
       $log.error('No $stateParams', $stateParams)
@@ -78,28 +76,14 @@ angular.module('app')
      * edit the current contact
      */
     this.edit = function() {
-      //$log.info('switch to edit', _vm.person);
       $state.go('app.contact-edit', { contactId : _vm.model._id});
-    }
-
-    this.doSubmit = function() {
-      $log.log('do submit');
-      $('#ngForm').submit();
-    }
-    this.doSubmit = function() {
-      var v = document.getElementById('submitForm');
-      $timeout(function() {
-       v.click();
-      },10);
-
-    }
+    };
 
     this.submit = function(form) {
       $log.info('submitting form: ', this.person);
-      if (typeof form === 'undefined') {
-        form = _vm.ngForm;
-      }
+
       if (form.$valid) {
+        contact.put()
         alert('Valid');
       } else {
         alert('failed');

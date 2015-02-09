@@ -1,5 +1,7 @@
 angular.module('app')
-  .factory('contact', ['$q','$log', '$timeout', '$rootScope', 'util', function($q, $log, $timeout, $rootScope, util) {
+  .factory('contact',
+              ['$q','$log', '$timeout', '$rootScope', 'util', 'db',
+        function($q, $log, $timeout, $rootScope, util, db) {
 
     this.tmpUsers = [
       {
@@ -16,11 +18,11 @@ angular.module('app')
         ]
       },
       {
-        _id: '1234-985039-038-193',
-        'name': [
-          {value: 'Klaas Mantje'}
+        _id: "1234-985039-038-193",
+         "name": [
+          {"value": "Klaas Mantje"}
         ]
-      }
+    }
     ];
     // definition of the fields used for view and edit
 
@@ -81,18 +83,39 @@ angular.module('app')
       }
     }
 
+    /***
+     * used: http://jsfiddle.net/yoorek/2zt27/1/
+     * as example to create promises from the function calls
+     */
     return {
       all : function() {
+        /*
         var deferred = $q.defer();
         $timeout(function() {
           deferred.resolve(_vm.tmpUsers);
         }, 10);
 
         return deferred.promise;
+        */
+        return db.all();
       },
-      get : function(id) {
-
+      get : function(docId) {
+        $log.log('get doc: ', docId);
+        var v = db.get(docId);
+/*
+        $log.log('db.get:', v);
+        v.then(function() {
+          $log.log('then')
+        }).
+          catch(function(err) {
+            $log.log('catch:', err);
+          });
+*/
+        return v; // it should check that the _type=='contact'
+        /**
         var deferred = $q.defer();
+
+
         $timeout(function() {
           //$log.info('looping',_vm.tmpUsers.length);
           for (var index = 0, len = _vm.tmpUsers.length; index < len; ++index) {
@@ -103,14 +126,36 @@ angular.module('app')
           };
           //$log.info('NOT found', _vm.tmpUsers, id);
         }, 10);
-
         return deferred.promise;
+         */
+      },
+      /**
+       * store the data in the db
+       * @param data
+       * @returns {Promise}
+       *
+       */
+      put : function(data) {
+        return db.put(data);
+      },
+      /**
+       * add a new contact to the store
+       * @param data
+       * @returns {Promise}
+       */
+      add : function(data) {
+        return db.put(data, 'contact');
       },
       fields : function(cnt) {
         var result = [];
         $log.log('fields');
         return Array.prototype.slice.call(cnt);
       },
+      /**
+       * return the display name of the contact
+       * @param cnt contact retrieved by get
+       * @returns string
+       */
       caption : function(cnt) {
         return util.isDefined(cnt.name) ? cnt.name[0].value : 'no name';
       },
@@ -161,21 +206,7 @@ angular.module('app')
        * read the information from contact and put them so jsonForm can handle it
        */
       model : function(data) {
-        var result = [];
-        for (var def in data) {
-          if (data.hasOwnProperty(def)) {
-            if (typeof _vm.fields[def] !== 'undefined') { // field is editable
-              var f = data[def];
-              var item = {};
-              if (!f.isArray) {
-                result[def] = f[0].value
-              } else {
-                $log.warning('contact.model: the array fields are not implemented');
-              }
-            }
-          }
-        }
-        return result;
+        return util.dataToModel(data, _vm.fields);
       },
       /**
        * convert the current information into the json form definition

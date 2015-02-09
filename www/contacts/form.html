@@ -7,8 +7,9 @@
     Contact - {{ contact.caption }}
   </ion-nav-title>
 
-  <ion-nav-buttons side="right">
-    <button class="button icon ion-save button-clear" ng-click="contact.doSubmit()">{{ "Save" | translate }}</button>
+  <ion-nav-buttons side="right"
+    ng-controller="AppController as app">
+    <button class="button icon ion-save button-clear" ng-click="app.submitForm('btnSubmit')">{{ "Save" | translate }}</button>
   </ion-nav-buttons>
 
 
@@ -19,9 +20,9 @@
           novalidate="" >
       <div sf-schema="contact.jsonForm"
            sf-form="contact.form"
-           sf-model="contact.person">
+           sf-model="contact.workingModel">
       </div>
-      <input type="submit" id="submitForm" style="display:none">
+      <input type="submit" id="btnSubmit" style="display:none">
     </form>
   </ion-content>
 
