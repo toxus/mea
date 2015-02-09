@@ -33,7 +33,9 @@ angular.module('app')
     'telephone' : 'telefoon',
     'email' : 'email',
     // contact/form
-    'The name is required' : 'De naam is verplicht'
+    'The name is required' : 'De naam is verplicht',
+    'Error saving information' : 'Fout bij het opslaan',
+    'There was an error saving the information.<br>Error: {error} ({errNo})' : 'De wijziging is niet opgeslagen.<br>Fout: {error} ({errNo})'
   });
   $ionicConfigProvider.backButton.text('');
 

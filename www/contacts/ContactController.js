@@ -2,7 +2,8 @@
  *
  */
 angular.module('app')
-  .controller('ContactController', function($scope, $log, contact) {
+  .controller('ContactController', ['$scope','$log', '$state', 'contact',
+                    function($scope, $log, $state, contact) {
     var _vm = this;
 
     this.contacts = [];
@@ -17,15 +18,20 @@ angular.module('app')
       });
      // return this.contacts;
     };
+    this.add = function() {
+      $log.log('add new contact');
+      $state.go('app.contact-new');
+    }
+
 
     contact.all().then(function(contacts) {
       _vm.contacts = contacts;
     })
-   });
+   }]);
 
 angular.module('app')
-  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', 'contact',
-    function($scope, $stateParams, $log, $state, $timeout, contact) {
+  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', 'contact', 'util', 'popup',
+    function($scope, $stateParams, $log, $state, $timeout, contact, util, popup) {
 
     var _vm = this;
 
@@ -69,6 +75,11 @@ angular.module('app')
         _vm.viewFields = contact.viewFields(data);
         _vm.caption = contact.caption(data);
       })
+    } else if ($stateParams.add) {
+      _vm.model = {};
+      _vm.workingModel = _vm.model;
+      _vm.viewFields = contact.viewFields({});
+      _vm.caption = 'new contact';
     } else {
       $log.error('No $stateParams', $stateParams)
     }
@@ -87,6 +98,12 @@ angular.module('app')
         var data = contact.formToModel(_vm.workingModel, _vm.model);
         contact.put(data).then(function() {
           $state.go('app.contact-detail', { contactId : _vm.model._id});
+        }).catch(function(err) {
+          $log.log(err);
+          popup.alert(
+            'There was an error saving the information.<br>Error: {error} ({errNo})',
+            'Error saving information',
+            { '{error}' : err.message,'{errNo}' : String(err.status) });
         });
       } else {
         alert('failed');

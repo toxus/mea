@@ -99,37 +99,19 @@ angular.module('app')
         */
         return db.all();
       },
-      put : function(data) {
-        return db.put(data);
-      },
-
-      get : function(docId) {
-        $log.log('get doc: ', docId);
-        var v = db.get(docId);
-        return v; // it should check that the _type=='contact'
-        /**
-        var deferred = $q.defer();
-
-
-        $timeout(function() {
-          //$log.info('looping',_vm.tmpUsers.length);
-          for (var index = 0, len = _vm.tmpUsers.length; index < len; ++index) {
-            if (_vm.tmpUsers[index]._id == id) {
-              deferred.resolve(_vm.tmpUsers[index]);
-              return;
-            }
-          };
-          //$log.info('NOT found', _vm.tmpUsers, id);
-        }, 10);
-        return deferred.promise;
-         */
-      },
       /**
        * store the data in the db
        * @param data
        * @returns {Promise}
        *
        */
+      put : function(data) {
+        return db.put(data);
+      },
+
+      get : function(docId) {
+        return db.get(docId);
+      },
       /**
        * add a new contact to the store
        * @param data
@@ -157,42 +139,10 @@ angular.module('app')
        *   - label
        *   - icon
        *   - format     (to display with dates)
-       *   - isMaster   (name to search on currently)
        *
        */
       viewFields : function(data) {
-        var result = [];
-        for (var def in data) {
-          if (data.hasOwnProperty(def)) { // should not read other properties
-            if (typeof _vm.fields[def] !== 'undefined') { // we know this type of field
-              for (var index in data[def]) {                  // every field is data repetative, telephone
-                var f = data[def][index];
-                /*
-                var lbl;
-                if (typeof f.label === 'undefined') {
-                  if (_vm.fields[def].labels === 'undefined') {
-                    lbl = def;
-                  } else {
-                    lbl = _vm.fields[def].labels[0]
-                  }
-                } else {
-                  lbl = f.label;
-                }
-                */
-                var item = {
-                  value :  f.value,
-                  label : _labelFromDef(f, def), //lbl,
-                  icon  : _vm.fields[def].icon,
-                  format : typeof _vm.fields[def].format === 'undefined' ? '' : _vm.fields[def].format
-                }
-                item.isMaster = typeof _vm.fields[def].isMaster === 'undefined' ? false : _vm.fields[def].isMaster;
-                result.push(item);
-              }
-            }
-          }
-        }
-//        $log.info('convert', result);
-        return result;
+        return util.view(data, _vm.fields);
       },
       /**
        * read the information from contact and put them so jsonForm can handle it

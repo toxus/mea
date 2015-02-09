@@ -1,8 +1,10 @@
 /**
  * global util functions
  */
+
+
 angular.module('app')
-  .factory('util', ['$log', function($log) {
+  .factory('util', ['$log', '$translate', '$ionicPopup', function($log, $translate, $ionicPopup) {
 
     /**
      * returns the label from the dataField if exist otherwise fields[fieldIndex].labels the first
@@ -151,6 +153,35 @@ angular.module('app')
         } else {
           return false;     // nothing did change
         }
+      },
+      /**
+       * generates the view out of the form definition
+       *
+       * ++++++++++ this version can NOT handle array structured data ++++++++++++
+       *
+       * @param record    the raw data from the record
+       * @param formDef   the definition of the view
+       * @returns array   the array to display
+       *   - value
+       *   - label
+       *   - icon
+       *   - format     (to display with dates)
+       */
+      view : function(record, formDef) {
+        var result = [];
+        for (var def in formDef) {
+          if (formDef.hasOwnProperty(def)) {
+            if (this.isDefined(record[def])) {
+              result.push({
+                label: this.isDefined(record[def][0].label) ? record[def][0].label : formDef[def].labels[0],
+                icon : formDef[def].icon,
+                value: record[def][0].value
+              });
+            }
+          }
+        }
+        return result;
       }
+
     }
   }]);

@@ -42,6 +42,15 @@ angular.module('app')
           }
         }
       })
+      .state('app.contact-new', {
+        url :'/contact-new',
+        params: {add : true},
+        views : {
+          'menuContent': {
+            templateUrl :'contacts/form.html'
+          }
+        }
+      })
       .state('init', {
         url : '/init',
         templateUrl: 'templates/init.html'
