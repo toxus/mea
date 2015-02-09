@@ -30,8 +30,8 @@ angular.module('app')
    }]);
 
 angular.module('app')
-  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', 'contact', 'util', 'popup',
-    function($scope, $stateParams, $log, $state, $timeout, contact, util, popup) {
+  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', '$translate', 'contact', 'util', 'popup',
+    function($scope, $stateParams, $log, $state, $timeout, $translate, contact, util, popup) {
 
     var _vm = this;
 
@@ -82,7 +82,7 @@ angular.module('app')
       _vm.model = {};
       _vm.workingModel = _vm.model;
       _vm.viewFields = contact.viewFields({});
-      _vm.caption = 'new contact';
+      _vm.caption = $translate.instant('new contact');
       _vm.isAdd = true;
     } else {
       $log.error('No $stateParams', $stateParams)
@@ -96,7 +96,6 @@ angular.module('app')
     };
 
     this.submit = function(form) {
-     // $log.info('submitting form: ', form, _vm.workingModel);
 
       if (form.$valid) {
         var data = contact.formToModel(_vm.workingModel, _vm.model);
@@ -115,7 +114,7 @@ angular.module('app')
             { '{error}' : err.message,'{errNo}' : String(err.status) });
         });
       } else {
-        alert('failed');
+        popup.error('Please fix the errors');
       }
     }
   }]);

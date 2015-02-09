@@ -2,10 +2,13 @@ angular.module('app')
   .factory('contact',
               ['$q','$log', '$timeout', '$rootScope', 'util', 'db',
         function($q, $log, $timeout, $rootScope, util, db) {
-
+    /**
+     * structure of a contact stored on disk
+     * @type {*[]}
     this.tmpUsers = [
       {
         _id: '1234-14593-1938-138',
+        type: 'contact',
         name: [
           {value: 'Jaap van der Kreeft'}
         ],
@@ -17,21 +20,16 @@ angular.module('app')
           {value: 'jaap@toxus.nl'},
         ]
       },
-      {
-        _id: "1234-985039-038-193",
-         "name": [
-          {"value": "Klaas Mantje"}
-        ]
-    }
     ];
-    // definition of the fields used for view and edit
+      */
 
-    this.fields = {
+            // definition of the fields used for view and edit
+
+    this._fields = util.translateForm({
       name : {                // field is store as name: {value: 'xxx', caption: 'yyyy', other: 'zzzz' }
         labels      : ['name'],
         icon        : 'ion-person',
         type        : 'string',
-   //     isMaster    : true,
         isArray     : false,      // only one name allowed
         isRequired    : true,
         validationMessage: {
@@ -59,7 +57,7 @@ angular.module('app')
         isArray : false,      // only one name allowed
         icon    : 'ion-android-pin'
       }
-    };
+    });
     var _vm = this;
 
     /**
@@ -72,11 +70,11 @@ angular.module('app')
     function _labelFromDef(dataField, fieldIndex) {
       if (typeof dataField.label !== 'undefined') {
         return dataField.label;
-      } else if (typeof _vm.fields[fieldIndex].labels !== 'undefined') {
-        if (typeof _vm.fields[fieldIndex].labels === 'string') {
-          return _vm.fields[fieldIndex].labels;
+      } else if (typeof _vm._fields[fieldIndex].labels !== 'undefined') {
+        if (typeof _vm._fields[fieldIndex].labels === 'string') {
+          return _vm._fields[fieldIndex].labels;
         } else {
-          return _vm.fields[fieldIndex].labels[0];
+          return _vm._fields[fieldIndex].labels[0];
         }
         return fieldIndex;
       }
@@ -141,22 +139,22 @@ angular.module('app')
        *
        */
       viewFields : function(data) {
-        return util.view(data, _vm.fields);
+        return util.view(data, _vm._fields);
       },
       /**
        * read the information from contact and put them so jsonForm can handle it
        */
       modelToForm : function(data) {
-        return util.dataToModel(data, _vm.fields);
+        return util.dataToModel(data, _vm._fields);
       },
       formToModel : function(data, record) {
-        return util.modelToData(data, record, _vm.fields);
+        return util.modelToData(data, record, _vm._fields);
       },
       /**
        * convert the current information into the json form definition
        */
       jsonForm : function() {
-        return util.jsonForm(_vm.fields);
+        return util.jsonForm(_vm._fields);
       }
     };
   }]);

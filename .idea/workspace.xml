@@ -4,8 +4,9 @@
     <list default="true" id="58421205-2f43-4f4d-9c3a-cbe72dc4b396" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/contacts/ContactController.js" afterPath="$PROJECT_DIR$/www/contacts/ContactController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/contact.js" afterPath="$PROJECT_DIR$/www/js/services/contact.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/db.js" afterPath="$PROJECT_DIR$/www/js/services/db.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/popup.js" afterPath="$PROJECT_DIR$/www/js/services/popup.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/translate.js" afterPath="$PROJECT_DIR$/www/js/translate.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/services/util.js" afterPath="$PROJECT_DIR$/www/js/services/util.js" />
     </list>
     <ignored path="mea2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,48 +29,7 @@
     <favorites_list name="mea2" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="contact.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/contact.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1540" max-vertical-offset="2535">
-              <caret line="107" column="26" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/www/js/services/util.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33266333" vertical-offset="1634" max-vertical-offset="2880">
-              <caret line="131" column="9" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContactController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/contacts/ContactController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="835" max-vertical-offset="1890">
-              <caret line="98" column="7" selection-start-line="98" selection-start-column="7" selection-end-line="98" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="db.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/www/js/services/db.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="310" max-vertical-offset="1305">
-              <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -98,13 +58,13 @@
         <option value="$PROJECT_DIR$/www/contacts/form.html" />
         <option value="$PROJECT_DIR$/www/js/route.js" />
         <option value="$PROJECT_DIR$/www/contacts/index.html" />
-        <option value="$PROJECT_DIR$/www/js/translate.js" />
         <option value="$PROJECT_DIR$/www/index.html" />
-        <option value="$PROJECT_DIR$/www/js/services/popup.js" />
         <option value="$PROJECT_DIR$/www/js/services/db.js" />
-        <option value="$PROJECT_DIR$/www/js/services/contact.js" />
+        <option value="$PROJECT_DIR$/www/js/services/popup.js" />
         <option value="$PROJECT_DIR$/www/contacts/ContactController.js" />
+        <option value="$PROJECT_DIR$/www/js/translate.js" />
         <option value="$PROJECT_DIR$/www/js/services/util.js" />
+        <option value="$PROJECT_DIR$/www/js/services/contact.js" />
       </list>
     </option>
   </component>
@@ -450,7 +410,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="52" y="55" width="1377" height="1385" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -530,11 +490,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/www/js/services/util.js</url>
-          <line>131</line>
-          <option name="timeStamp" value="45" />
+          <line>191</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/www/js/services/util.js</url>
+          <line>209</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="46" />
+      <option name="time" value="49" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -874,22 +839,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/popup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34673366" vertical-offset="0" max-vertical-offset="995">
-          <caret line="23" column="69" selection-start-line="23" selection-start-column="69" selection-end-line="23" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/translate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30150753" vertical-offset="0" max-vertical-offset="995">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42211056" vertical-offset="0" max-vertical-offset="995">
@@ -908,32 +857,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/db.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="310" max-vertical-offset="1305">
+        <state vertical-scroll-proportion="0.6683417" vertical-offset="310" max-vertical-offset="1305">
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/popup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5728643" vertical-offset="0" max-vertical-offset="995">
+          <caret line="38" column="38" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/translate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23243801" vertical-offset="0" max-vertical-offset="968">
+          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/contacts/ContactController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="835" max-vertical-offset="1890">
-          <caret line="98" column="7" selection-start-line="98" selection-start-column="7" selection-end-line="98" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/js/services/contact.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1049" max-vertical-offset="2535">
-          <caret line="107" column="26" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
+        <state vertical-scroll-proportion="1.2396694" vertical-offset="45" max-vertical-offset="1875">
+          <caret line="83" column="41" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/services/util.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33266333" vertical-offset="1634" max-vertical-offset="2880">
-          <caret line="131" column="9" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.8643216" vertical-offset="2290" max-vertical-offset="3285">
+          <caret line="210" column="0" selection-start-line="210" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/js/services/contact.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42665288" vertical-offset="127" max-vertical-offset="2505">
+          <caret line="36" column="9" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
           <folding />
         </state>
       </provider>

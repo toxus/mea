@@ -15,7 +15,8 @@ angular.module('app')
     'telephone' : 'telephone',
     'email' : 'email',
     // contact.form
-    'The name is required'  : 'The name is required'
+    'The name is required'  : 'The name is required',
+    'Please fix the errors' : 'Please fix the errors'
   });
 
   $translateProvider.translations('nl', {
@@ -35,7 +36,8 @@ angular.module('app')
     // contact/form
     'The name is required' : 'De naam is verplicht',
     'Error saving information' : 'Fout bij het opslaan',
-    'There was an error saving the information.<br>Error: {error} ({errNo})' : 'De wijziging is niet opgeslagen.<br>Fout: {error} ({errNo})'
+    'There was an error saving the information.<br>Error: {error} ({errNo})' : 'De wijziging is niet opgeslagen.<br>Fout: {error} ({errNo})',
+    'Please fix the errors' : 'Niet alle velden zijn juist ingevuld'
   });
   $ionicConfigProvider.backButton.text('');
 

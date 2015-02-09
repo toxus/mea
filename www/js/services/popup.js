@@ -37,9 +37,20 @@ angular.module('app')
         }
         var alertPopup = $ionicPopup.alert({
           title: $translate.instant(util.isDefined(title) ? title : MSGBOX_TITLE),
-          template: msg
+          template: msg,
+          okText : $translate.instant('OK')
         });
         return alertPopup;
+      },
+      /**
+       * simple version of the alert displaying an error, with translate and merge
+       *
+       * @param message
+       * @param params
+       * @returns {promise}
+       */
+      error : function(message, params) {
+        return this.alert(message, 'Error', params);
       }
     }
   }]);

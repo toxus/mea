@@ -101,6 +101,7 @@ angular.module('app')
        */
       dataToModel : function(data, formDef) {
         var result = [];
+        if (!this.isDefined(formDef)) {formDef = {};}
         for (var def in data) {
           if (data.hasOwnProperty(def)) {
             if (this.isDefined(formDef[def] )) { // field is editable
@@ -181,6 +182,32 @@ angular.module('app')
           }
         }
         return result;
+      },
+      /**
+       * translates all the labels and message to the current language
+       * @param form
+       */
+      translateForm : function(formDef) {
+        var lbls, msgs;
+        for (var fld in formDef) {
+          if (formDef.hasOwnProperty(fld)) {
+            if (this.isDefined(formDef[fld].labels)) {
+              lbls = [];
+              for (var lbl in formDef[fld].labels) {
+                lbls.push($translate.instant(formDef[fld].labels[lbl]));
+              }
+              formDef[fld].labels = lbls;
+            }
+            if (this.isDefined(formDef[fld].validationMessage)) {
+              msgs = {};
+              for (var msg in formDef[fld].validationMessage) {
+                msgs[msg] = $translate.instant(formDef[fld].validationMessage[msg])
+              }
+              formDef[fld].validationMessage = msgs;
+            }
+          }
+        }
+        return formDef;
       }
 
     }
