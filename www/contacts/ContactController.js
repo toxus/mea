@@ -24,7 +24,8 @@ angular.module('app')
    });
 
 angular.module('app')
-  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', 'contact', function($scope, $stateParams, $log, $state, $timeout, contact) {
+  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', 'contact',
+    function($scope, $stateParams, $log, $state, $timeout, contact) {
 
     var _vm = this;
 
@@ -64,7 +65,7 @@ angular.module('app')
     if ($stateParams.contactId) {
       contact.get($stateParams.contactId).then(function(data) {
         _vm.model = data;
-        _vm.workingModel = contact.model(data);
+        _vm.workingModel = contact.modelToForm(data);
         _vm.viewFields = contact.viewFields(data);
         _vm.caption = contact.caption(data);
       })
@@ -80,11 +81,13 @@ angular.module('app')
     };
 
     this.submit = function(form) {
-      $log.info('submitting form: ', this.person);
+      $log.info('submitting form: ', form, _vm.workingModel);
 
       if (form.$valid) {
-        contact.put()
-        alert('Valid');
+        var data = contact.formToModel(_vm.workingModel, _vm.model);
+        contact.put(data).then(function() {
+          $state.go('app.contact-detail', { contactId : _vm.model._id});
+        });
       } else {
         alert('failed');
       }

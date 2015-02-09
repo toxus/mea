@@ -90,8 +90,12 @@ angular.module('app')
       },
       /**
        * convert the data into the model definition that can be used by the jsonForm
+       *
+       * ++++++++++ this version can NOT handle array structured data ++++++++++++
+       *
        * @param data      the data from the PouchDB
        * @param formDef   the definition of the jsonForm
+       * @returns array   the model data used for editing the jsonForm
        */
       dataToModel : function(data, formDef) {
         var result = [];
@@ -109,7 +113,44 @@ angular.module('app')
           }
         }
         return result;
+      },
+      /**
+       * convert the form input into the record by only change the _vmFields
+       *
+       * ++++++++++ this version can NOT handle array structured data ++++++++++++
+       *
+       * @param formData  data returned by editing
+       * @param record    data loaded from disk
+       * @param formDef   the definition of the form used
+       * @returns changed record or false if nothing changed
+       */
+      modelToData: function(formData, record, formDef) {
+        var didChange = false;
+        for (var def in formDef) {
+          if (formDef.hasOwnProperty(def)) {
+            if (this.isDefined(formData[def]) && formData[def] != '') { // field is there
+              if (this.isDefined(record[def]) && this.isDefined(record[def][0])) {
+                didChange |= formData[def] != record[def][0].value;
+                record[def][0].value = formData[def];
+              } else {
+                didChange = true;
+                record[def] = [
+                  { value: formData[def] }
+                ];
+              }
+            } else {  // field is not there
+              if (this.isDefined(record[def]) && this.isDefined(record[def][0])) {
+                didChange = true;
+                delete record[def];
+              }
+            }
+          }
+        }
+        if (didChange) {
+          return record;
+        } else {
+          return false;     // nothing did change
+        }
       }
-
     }
   }]);

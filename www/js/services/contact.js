@@ -99,18 +99,13 @@ angular.module('app')
         */
         return db.all();
       },
+      put : function(data) {
+        return db.put(data);
+      },
+
       get : function(docId) {
         $log.log('get doc: ', docId);
         var v = db.get(docId);
-/*
-        $log.log('db.get:', v);
-        v.then(function() {
-          $log.log('then')
-        }).
-          catch(function(err) {
-            $log.log('catch:', err);
-          });
-*/
         return v; // it should check that the _type=='contact'
         /**
         var deferred = $q.defer();
@@ -135,9 +130,6 @@ angular.module('app')
        * @returns {Promise}
        *
        */
-      put : function(data) {
-        return db.put(data);
-      },
       /**
        * add a new contact to the store
        * @param data
@@ -205,8 +197,11 @@ angular.module('app')
       /**
        * read the information from contact and put them so jsonForm can handle it
        */
-      model : function(data) {
+      modelToForm : function(data) {
         return util.dataToModel(data, _vm.fields);
+      },
+      formToModel : function(data, record) {
+        return util.modelToData(data, record, _vm.fields);
       },
       /**
        * convert the current information into the json form definition

@@ -59,7 +59,12 @@ angular.module('app')
        * @returns {Promise}
        */
       put : function(doc) {
-        return $q.when(this.local.put(doc));
+        // do not put information if doc === false. Nothing has changed
+        if (doc === false) {
+          return $q.when(true);        // just return true
+        } else {
+          return $q.when(this.local.put(doc));
+        }  
       },
       /**
        * create a new doc in the database with the given type
