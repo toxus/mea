@@ -55,11 +55,11 @@ angular.module('app')
       },
       /**
        * stores a document in the database by the _id and _rev stored in the doc
-       * @param doc
+       * @param doc       the document to save
+       * @param typename  if defined && not false it's creates a new object with for this type
        * @returns {Promise}
        */
       put : function(doc) {
-        // do not put information if doc === false. Nothing has changed
         if (doc === false) {
           return $q.when(true);        // just return true
         } else {

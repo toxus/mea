@@ -31,10 +31,9 @@ angular.module('app')
         labels      : ['name'],
         icon        : 'ion-person',
         type        : 'string',
-        isMaster    : true,
+   //     isMaster    : true,
         isArray     : false,      // only one name allowed
         isRequired    : true,
-        showOn      : ['insert', 'update'],      // when to show. If not it's placed in optional list
         validationMessage: {
           "default": "The name is required"
         }
@@ -106,7 +105,7 @@ angular.module('app')
        *
        */
       put : function(data) {
-        return db.put(data);
+        return db.put(data) ;
       },
 
       get : function(docId) {

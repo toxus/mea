@@ -45,6 +45,8 @@ angular.module('app')
     this.model = {};
     // the model that edited by the form
     this.workingModel = {};
+    // if true it an add
+    this.isAdd = false;
 
     // ----
     this.schema = {
@@ -74,12 +76,14 @@ angular.module('app')
         _vm.workingModel = contact.modelToForm(data);
         _vm.viewFields = contact.viewFields(data);
         _vm.caption = contact.caption(data);
+        _vm.isAdd = false;
       })
     } else if ($stateParams.add) {
       _vm.model = {};
       _vm.workingModel = _vm.model;
       _vm.viewFields = contact.viewFields({});
       _vm.caption = 'new contact';
+      _vm.isAdd = true;
     } else {
       $log.error('No $stateParams', $stateParams)
     }
@@ -92,11 +96,16 @@ angular.module('app')
     };
 
     this.submit = function(form) {
-      $log.info('submitting form: ', form, _vm.workingModel);
+     // $log.info('submitting form: ', form, _vm.workingModel);
 
       if (form.$valid) {
         var data = contact.formToModel(_vm.workingModel, _vm.model);
-        contact.put(data).then(function() {
+        $log.log('Data to store:', data);
+        var result = _vm.isAdd ?
+          contact.put(data) :
+          contact.add(data, 'contact');
+
+        result.then(function() {
           $state.go('app.contact-detail', { contactId : _vm.model._id});
         }).catch(function(err) {
           $log.log(err);
