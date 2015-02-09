@@ -73,8 +73,8 @@ angular.module('app')
        * @returns {Promise}
        */
       add : function(doc, typeName) {
-        data._type = typeName;
-        data._id = rfc4122.v4()
+        doc.type = typeName;
+        doc._id = rfc4122.v4()
         return $q.when(this.local.put(doc));
       }
     }

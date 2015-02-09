@@ -80,7 +80,7 @@ angular.module('app')
       })
     } else if ($stateParams.add) {
       _vm.model = {};
-      _vm.workingModel = _vm.model;
+      _vm.workingModel = {};
       _vm.viewFields = contact.viewFields({});
       _vm.caption = $translate.instant('new contact');
       _vm.isAdd = true;
@@ -101,8 +101,9 @@ angular.module('app')
         var data = contact.formToModel(_vm.workingModel, _vm.model);
         $log.log('Data to store:', data);
         var result = _vm.isAdd ?
-          contact.put(data) :
-          contact.add(data, 'contact');
+          contact.add(data, 'contact') :
+          contact.put(data) ;
+
 
         result.then(function() {
           $state.go('app.contact-detail', { contactId : _vm.model._id});

@@ -105,7 +105,6 @@ angular.module('app')
       put : function(data) {
         return db.put(data) ;
       },
-
       get : function(docId) {
         return db.get(docId);
       },
@@ -115,7 +114,7 @@ angular.module('app')
        * @returns {Promise}
        */
       add : function(data) {
-        return db.put(data, 'contact');
+        return db.add(data, 'contact');
       },
       fields : function(cnt) {
         var result = [];
