@@ -10,9 +10,44 @@ angular.module('app')
     this.local = {};
     this.remote = {};
 
+    /**
+     * init the _design interface of the data
+     */
+
+
     return {
+      _initDb : function() {
+        var contact = {
+          _id: '_design/contact',
+          views: {
+            byName: {
+              map: function (doc) {
+                if (doc.type == 'contact') {
+                  emit(doc.name[0].value)
+                }
+              }.toString()
+            }
+          }
+        };
+        $log.log('checking structure of pouchDb');
+        var db = this.local;
+        this.local.get(contact._id).then(function (result) {
+          // check changes
+          if (!util.isDefined(result.views) ||
+              (JSON.stringify(result.views) !== JSON.stringify(contact.views))) {
+            $log.log('pouchDb.contact changed');
+            result.views = contact.views;
+            db.put(result);
+          }
+        }).catch(function (err) {
+          $log.log('pouchDb.contact new');
+          db.put(contact);
+        });
+        $log.log('checking structure of pouchDb, done');
+      },
       connect : function() {
         this.local = new PouchDB('');
+        this._initDb();
         $log.log('Connecting remote: ', user.remoteDbUrl());
         this.remote = new PouchDB(user.remoteDbUrl());
         this.local.sync(this.remote, { live: true});
@@ -26,12 +61,13 @@ angular.module('app')
        * used: http://jsfiddle.net/yoorek/2zt27/1/
        * as example to create promises from the function calls
        */
-      all : function(options) {
+      all : function(type, filter, options) {
         if (!util.isDefined(options)) {
           options = {
             include_docs: true
           };
-          return $q.when(this.local.allDocs(options))
+          return $q.when(this.local.query(type + '/byName', options))
+//          return $q.when(this.local.allDocs(options))
             .then(function(result) {
               var converted;
               converted = result.rows.map(function(element) {
@@ -39,6 +75,7 @@ angular.module('app')
               });
               return converted;
             });
+
         }
       },
       /**

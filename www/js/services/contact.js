@@ -86,7 +86,7 @@ angular.module('app')
      * as example to create promises from the function calls
      */
     return {
-      all : function() {
+      all : function(filterVal) {
         /*
         var deferred = $q.defer();
         $timeout(function() {
@@ -95,7 +95,8 @@ angular.module('app')
 
         return deferred.promise;
         */
-        return db.all();
+        if (!util.isDefined(filterVal)) {filterVal = false;}
+        return db.all('contact', filterVal);
       },
       /**
        * store the data in the db
