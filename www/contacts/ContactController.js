@@ -30,8 +30,8 @@ angular.module('app')
    }]);
 
 angular.module('app')
-  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', '$translate', 'contact', 'util', 'popup',
-    function($scope, $stateParams, $log, $state, $timeout, $translate, contact, util, popup) {
+  .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', '$translate', '$ionicHistory', 'contact', 'util', 'popup',
+    function($scope, $stateParams, $log, $state, $timeout, $translate, $ionicHistory, contact, util, popup) {
 
     var _vm = this;
 
@@ -106,7 +106,8 @@ angular.module('app')
 
 
         result.then(function() {
-          $state.go('app.contact-detail', { contactId : _vm.model._id});
+          $ionicHistory.goBack();
+          // $state.go('app.contact-detail', { contactId : _vm.model._id});
         }).catch(function(err) {
           $log.log(err);
           popup.alert(
