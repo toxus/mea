@@ -9,8 +9,8 @@
  * controller for listing all contacts
  */
 angular.module('app')
-  .controller('ContactController', ['$scope', '$log', '$state', '$timeout', 'contact',
-                    function($scope, $log, $state, $timeout, contact) {
+  .controller('ContactController', ['$scope', '$log', '$state', '$timeout', 'contact', 'PouchListener',
+                    function($scope, $log, $state, $timeout, contact, PouchListener) {
     var _vm = this;
     this.contacts = [];
     this.search = '';
@@ -35,7 +35,61 @@ angular.module('app')
 
     contact.all().then(function(contacts) {
       _vm.contacts = contacts;
-    })
+    });
+
+    /**
+     * The event listeners are initialize in the /js/service/db.js
+     *
+     */
+    var onUpdate = $scope.$on('contact.update', angular.bind(this, function(event, doc) {
+      for(var i = 0, len = this.contacts.length; i < len ; i++) {
+        if(this.contacts[i]._id === doc._id) {
+          $log.log('contacts.updated', doc);
+          this.contacts[i] = doc;
+          return;
+        }
+      }
+      $log.log('contacts.onUpdate unknown', doc)
+      this.contacts.push(doc);
+    }));
+
+    /**
+     Address.all().then(angular.bind(this, function(result) {
+      $log.info('all returned:',result);
+      for (var i=0; i<result.rows.length; i++) {
+        this.contacts.push(result.rows[i].doc);
+      }
+      PouchListener.addListener({type:'contact', event: 'contact'});
+      //$scope.contacts = result.rows;
+    }));
+
+     var onCreate = $rootScope.$on('contact.create', angular.bind(this, function(event, contact) {
+      this.contacts.push(contact);
+    }));
+
+     var onUpdate = $rootScope.$on('contact.update', angular.bind(this, function(event, contact) {
+      for(var i = 0; i < this.contacts.length; i++) {
+        if(this.contacts[i]._id === contact._id) {
+          $log.log('updated');
+          this.contacts[i] = contact;
+          return;
+        }
+      }
+      this.contacts.push(contact);
+    }));
+
+     var onDelete = $rootScope.$on('contact.delete', angular.bind('this', function(event, id) {
+      for(var i = 0; i < $scope.contacts.length; i++) {
+        if(this.contacts[i]._id === id) {
+          this.contacts.splice(i, 1);
+        }
+      }
+    }));
+     *
+      */
+
+
+
   }]);
 
 /**

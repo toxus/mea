@@ -19,6 +19,7 @@ angular.module('app', ['ionic', 'ngCordova', 'starter.controllers','schemaForm',
     }
     user.init().then(function() {
       db.connect();
+
       if (navigator.splashScreen) {
         navigator.splashScreen.hide();
       }

@@ -5,10 +5,12 @@
  *
  */
 angular.module('app')
- .factory('db', ['$log', '$q', 'rfc4122', 'user', 'util', function($log, $q, rfc4122, user, util) {
+ .factory('db', ['$log', '$q', '$rootScope', 'user', 'util',
+                function($log, $q, $rootScope, user, util) {
     this.isConnected = false;
     this.local = {};
     this.remote = {};
+    var _eventlisteners = []; // array of {event: ['insert','update', 'delete'], type: 'text of doc.type', name: 'event name'
 
     /**
      * init the _design interface of the data
@@ -23,7 +25,7 @@ angular.module('app')
             byName: {
               map: function (doc) {
                 if (doc.type == 'contact') {
-                  emit(doc.name[0].value)
+                  emit(doc.name[0].value.toLowerCase())
                 }
               }.toString()
             }
@@ -45,9 +47,14 @@ angular.module('app')
         });
         $log.log('checking structure of pouchDb, done');
       },
+      _initEvents : function() {
+        this.addListener('contact'); // {type:'contact', event: 'contact'});
+      },
+
       connect : function() {
         this.local = new PouchDB('');
         this._initDb();
+        this._initEvents();
         $log.log('Connecting remote: ', user.remoteDbUrl());
         this.remote = new PouchDB(user.remoteDbUrl());
         this.local.sync(this.remote, { live: true});
@@ -138,6 +145,56 @@ angular.module('app')
         doc.type = typeName;
         doc._id = util.randomKey(typeName);
         return $q.when(this.local.put(doc));
+      },
+
+      addListener : function(typeDef) {
+        if (_eventlisteners.indexOf(typeDef) >= 0) return; // we are listening
+        _eventlisteners.push(typeDef);
+        if (_eventlisteners.length == 1) {
+          // activate the change reader
+          var activeDb = this.local;
+          activeDb.changes({
+            continuous: true,
+            since: 'now',
+
+            onChange: function (change) {
+              if (change.deleted) {
+                // $log.info('delete.');
+                $rootScope.$apply(function () {
+                  $rootScope.$broadcast(options.event + '.delete', change.id);
+                });
+              }
+            }
+
+          })
+            .on('create', function (evtInfo) {
+              $rootScope.$apply(function () {
+                // $log.info('add:', evtInfo);
+                activeDb.get(evtInfo.id, function (err, doc) {
+                  $rootScope.$apply(function () {
+                    if (err) console.log(err);
+                    $rootScope.$broadcast(options.event + '.create', doc);
+                  })
+                });
+              });
+            })
+            .on('update', function (evtInfo) {
+              $rootScope.$apply(function () {
+                activeDb.get(evtInfo.id, function (err, doc) {
+                  if (util.isDefined(doc.type) && _eventlisteners.indexOf(doc.type) >= 0) {
+                    $rootScope.$apply(function () {
+                      $log.log('broadcast', doc.type + '.update');
+                      $rootScope.$broadcast(doc.type + '.update', doc);
+                    })
+                    return;   // can only be one
+                  }
+                });
+              });
+            });
+        }
+      },
+      removeListener : function(name) {
+        $log.warn('Removing of pouch listener is not supported');
       }
     }
   }]);
