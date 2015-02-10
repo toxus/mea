@@ -172,13 +172,17 @@ angular.module('app')
         var result = [];
         for (var def in formDef) {
           if (formDef.hasOwnProperty(def)) {
-            if (this.isDefined(record[def])) {
-              result.push({
-                label: this.isDefined(record[def][0].label) ? record[def][0].label : formDef[def].labels[0],
-                icon : formDef[def].icon,
-                value: record[def][0].value
-              });
-            }
+            try {
+              if (this.isDefined(record[def])) {
+                result.push({
+                  label: this.isDefined(record[def][0].label) ? record[def][0].label : formDef[def].labels[0],
+                  icon: formDef[def].icon,
+                  value: record[def][0].value
+                });
+              }
+            } catch (err) {
+              $log.error('util.view', err);
+            } // just not adding the field
           }
         }
         return result;

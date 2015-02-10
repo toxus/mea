@@ -54,7 +54,7 @@ angular.module('app')
         }
       },
       location : {
-        label   : ['home', 'work'],
+        labels   : ['home', 'work'],
         isArray : false,      // only one name allowed
         icon    : 'ion-android-pin'
       }
