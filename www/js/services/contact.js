@@ -25,7 +25,8 @@ angular.module('app')
 
             // definition of the fields used for view and edit
 
-    this._fields = util.translateForm({
+    this._fields = util.translateForm(
+      {
       name : {                // field is store as name: {value: 'xxx', caption: 'yyyy', other: 'zzzz' }
         labels      : ['name'],
         icon        : 'ion-person',

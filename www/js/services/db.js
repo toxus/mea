@@ -74,7 +74,7 @@ angular.module('app')
        */
       add : function(doc, typeName) {
         doc.type = typeName;
-        doc._id = rfc4122.v4()
+        doc._id = util.randomKey(typeName);
         return $q.when(this.local.put(doc));
       }
     }

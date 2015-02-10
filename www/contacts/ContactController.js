@@ -1,34 +1,33 @@
 /**
+ * controller to handle listing and editing of contact
+ *
+ * version 0.5 jvk 2015.02.10
  *
  */
-angular.module('app')
-  .controller('ContactController', ['$scope','$log', '$state', 'contact',
-                    function($scope, $log, $state, contact) {
-    var _vm = this;
 
+/**
+ * controller for listing all contacts
+ */
+angular.module('app')
+  .controller('ContactController', ['$log', '$state', 'contact',
+                    function($log, $state, contact) {
+    var _vm = this;
     this.contacts = [];
 
-
-    this.getContacts = function() {
-      $log.info('get Contacts');
-      return contact.all();
-
-      contact.all().then(function(cnt) {
-        return cnt;
-      });
-     // return this.contacts;
-    };
     this.add = function() {
       $log.log('add new contact');
       $state.go('app.contact-new');
-    }
-
+    };
 
     contact.all().then(function(contacts) {
       _vm.contacts = contacts;
     })
-   }]);
+  }]);
 
+/**
+ * controller of editing and adding a contact
+ *
+ */
 angular.module('app')
   .controller('ContactDetailController', ['$scope', '$stateParams', '$log', '$state', '$timeout', '$translate', '$ionicHistory', 'contact', 'util', 'popup',
     function($scope, $stateParams, $log, $state, $timeout, $translate, $ionicHistory, contact, util, popup) {
@@ -47,8 +46,12 @@ angular.module('app')
     this.workingModel = {};
     // if true it an add
     this.isAdd = false;
+    // form for order and extra elements
+      this.form = [
+        "*"
+      ];
 
-    // ----
+/*
     this.schema = {
       type: "object",
       properties: {
@@ -60,15 +63,12 @@ angular.module('app')
       }
     };
 
-    this.form = [
-      "*"
-    ];
 
     this.model = {};
     this.person = {
       name : 'Jaap o'
     };
-    // ----
+*/
 
     if ($stateParams.contactId) {
       contact.get($stateParams.contactId).then(function(data) {
@@ -86,6 +86,8 @@ angular.module('app')
       _vm.isAdd = true;
     } else {
       $log.error('No $stateParams', $stateParams)
+      popup.error('There is no state active.');
+      $ionicHistory.goBack();
     }
 
     /**
@@ -107,7 +109,6 @@ angular.module('app')
 
         result.then(function() {
           $ionicHistory.goBack();
-          // $state.go('app.contact-detail', { contactId : _vm.model._id});
         }).catch(function(err) {
           $log.log(err);
           popup.alert(
