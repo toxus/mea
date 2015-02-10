@@ -60,19 +60,44 @@ angular.module('app')
       /***
        * used: http://jsfiddle.net/yoorek/2zt27/1/
        * as example to create promises from the function calls
+       *
+       * @param:    type the type string for the doc.type
+       * @filter:   false or an object of {value, fields} that defines where to look for the value
+       * @returns:  promise
        */
-      all : function(type, filter, options) {
+      all : function(type, filterObj, options) {
         if (!util.isDefined(options)) {
           options = {
             include_docs: true
           };
           return $q.when(this.local.query(type + '/byName', options))
-//          return $q.when(this.local.allDocs(options))
             .then(function(result) {
               var converted;
-              converted = result.rows.map(function(element) {
-                return element.doc;
-              });
+              if (!util.isDefined(filterObj) || filterObj === false ) {
+                converted = result.rows.map(function (element) {
+                  return element.doc;
+                });
+              } else {
+                var value = filterObj.value.toLowerCase();
+                var len = filterObj.fields.length;
+                converted = result.rows
+                  .filter(function(doc) {
+//                    console.log('found:', doc, ', filterObj', filterObj);
+                    for (var index = 0; index < len; index++) {
+                      var field = filterObj.fields[index];
+                      if (util.isDefined(doc.doc[field])) {
+                        var test = doc.doc[field][0].value.toLowerCase();
+                        if (test.indexOf(value) >= 0) {
+                          return true;
+                        }
+                      }
+                    }
+                    return false;
+                  })
+                  .map(function (element) {
+                    return element.doc;
+                  });
+              }
               return converted;
             });
 

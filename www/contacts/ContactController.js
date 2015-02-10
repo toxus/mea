@@ -9,15 +9,29 @@
  * controller for listing all contacts
  */
 angular.module('app')
-  .controller('ContactController', ['$log', '$state', 'contact',
-                    function($log, $state, contact) {
+  .controller('ContactController', ['$scope', '$log', '$state', '$timeout', 'contact',
+                    function($scope, $log, $state, $timeout, contact) {
     var _vm = this;
     this.contacts = [];
+    this.search = '';
+
+    $scope.$watch(angular.bind(this, function(search) {
+      return this.search;
+    }), function(newVal, oldVal) {
+//      $log.log('search changed from/to',oldVal, newVal)
+      newVal = newVal.trim();
+      var prom = (newVal != '') ? prom = contact.all(newVal) :  prom = contact.all();
+      prom.then(function (contacts) {
+        _vm.contacts = contacts;
+      });
+    });
+
 
     this.add = function() {
       $log.log('add new contact');
       $state.go('app.contact-new');
     };
+
 
     contact.all().then(function(contacts) {
       _vm.contacts = contacts;

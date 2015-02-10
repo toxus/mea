@@ -59,6 +59,12 @@ angular.module('app')
         icon    : 'ion-android-pin'
       }
     });
+    /**
+     * the fields that the query will look for
+     * @type {string[]}
+     * @private
+     */
+    this._queryFields = ['name', 'telephone', 'location', 'email'];
     var _vm = this;
 
     /**
@@ -82,6 +88,9 @@ angular.module('app')
     }
 
     /***
+     * Filter the contacts. If filterVal is a value then this is compared to the
+     * defined field list
+     *
      * used: http://jsfiddle.net/yoorek/2zt27/1/
      * as example to create promises from the function calls
      */
@@ -95,8 +104,9 @@ angular.module('app')
 
         return deferred.promise;
         */
-        if (!util.isDefined(filterVal)) {filterVal = false;}
-        return db.all('contact', filterVal);
+        return (util.isDefined(filterVal)) ?
+          db.all('contact', {value: filterVal, fields: _vm._queryFields}) :
+          db.all('contact');
       },
       /**
        * store the data in the db

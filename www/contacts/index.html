@@ -9,7 +9,9 @@
   <ion-nav-title>
     <label class="item item-input tx-header-search">
       <i class="icon ion-search placeholder-icon"></i>
-      <input type="search" placeholder="{{ 'Search' | translate }}">
+      <input type="search"
+             ng-model="contacts.search"
+             placeholder="{{ 'Search' | translate }}">
     </label>
   </ion-nav-title>
 
