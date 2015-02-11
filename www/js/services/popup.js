@@ -16,6 +16,17 @@ String.prototype.replaceAll = function(replace_what, replace_with) {
 angular.module('app')
   .factory('popup', ['$ionicPopup', '$translate', 'util', function($ionicPopup, $translate, util) {
     return {
+      _translateMsg : function(message, params) {
+        var msg = $translate.instant(message);
+        for (var param in params) {
+          if (params.hasOwnProperty(param)) {
+            var p = $translate.instant(params[param])
+            msg = msg.replaceAll(param, p);
+          }
+        }
+        return msg;
+      },
+
       /**
        * alert the user in a translated message
        *
@@ -28,16 +39,9 @@ angular.module('app')
         if (!util.isDefined(params)) {
           params = {};
         }
-        var msg = $translate.instant(message);
-        for (var param in params) {
-          if (params.hasOwnProperty(param)) {
-            var p = $translate.instant(params[param])
-            msg = msg.replaceAll(param, p);
-          }
-        }
         var alertPopup = $ionicPopup.alert({
           title: $translate.instant(util.isDefined(title) ? title : MSGBOX_TITLE),
-          template: msg,
+          template: this._translateMsg(message, params),
           okText : $translate.instant('OK')
         });
         return alertPopup;
@@ -51,6 +55,15 @@ angular.module('app')
        */
       error : function(message, params) {
         return this.alert(message, 'Error', params);
+      },
+      confirm : function(message, title, params) {
+        var confirmPopup = $ionicPopup.confirm({
+          title: $translate.instant(util.isDefined(title) ? title : MSGBOX_TITLE),
+          template: this._translateMsg(message, params),
+          okText : $translate.instant('OK'),
+          cancelText : $translate.instant('Cancel')
+        });
+        return confirmPopup;
       }
     }
   }]);

@@ -1,0 +1,48 @@
+<ion-view title=""
+          class="development-menu"
+          cache-view="false"
+          ng-controller="DevelopmentController as dev">
+<!--
+  <ion-nav-buttons side="right">
+    <button class="button icon ion-plus button-clear" ng-click="contacts.add()"></button>
+  </ion-nav-buttons>
+-->
+  <ion-nav-title>
+    {{ "Development settings" | translate }}
+  </ion-nav-title>
+
+  <!--
+    <ion-nav-bar>
+      <ion-nav-buttons side="left">
+
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+
+      </ion-nav-buttons>
+
+  </ion-nav-bar>
+-->
+
+  <ion-content padding="true">
+    <div class="list card">
+      <div class="item item-text-wrap">
+        <a href="#/app/dev-state"
+           class="item item-icon-right"
+           nav-clear>
+          <i class="icon ion-bug balanced"></i>
+          Show system status and debug information.
+        </a>
+      </div>
+      <div class="item item-text-wrap">
+        <a href="#"
+           ng-click="dev.setup()"
+           class="item item-icon-right"
+           nav-clear>
+          <i class="icon ion-nuclear assertive"></i>
+          Setup a clean system with the basic data for testing. This will remove all changes made to the database.
+        </a>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>
+

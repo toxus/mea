@@ -5,8 +5,8 @@
  *
  */
 angular.module('app')
- .factory('db', ['$log', '$q', '$rootScope', 'user', 'util',
-                function($log, $q, $rootScope, user, util) {
+ .factory('db', ['$log', '$q', '$rootScope', 'util',
+                function($log, $q, $rootScope, util) {
     this.isConnected = false;
     this.local = {};
     this.remote = {};
@@ -51,16 +51,19 @@ angular.module('app')
         this.addListener('contact'); // {type:'contact', event: 'contact'});
       },
 
-      connect : function() {
-        this.local = new PouchDB('');
+      connect : function(remoteDbUrl) {
+        this.local = new PouchDB('mea');
         this._initDb();
         this._initEvents();
-        $log.log('Connecting remote: ', user.remoteDbUrl());
-        this.remote = new PouchDB(user.remoteDbUrl());
+        $log.log('Connecting remote: ', remoteDbUrl);
+        this.remote = new PouchDB(remoteDbUrl);
         this.local.sync(this.remote, { live: true});
         this.isConnected = true;
+        $rootScope.$broadcast('db:connected');
       },
       disconnect : function() {
+        this.isConnected = false;
+        $rootScope.$broadcast('db:disconnected');
         remoteDb = {};
       },
 
@@ -159,10 +162,16 @@ angular.module('app')
 
             onChange: function (change) {
               if (change.deleted) {
-                // $log.info('delete.');
-                $rootScope.$apply(function () {
-                  $rootScope.$broadcast(options.event + '.delete', change.id);
-                });
+                /**
+                 * how do we know the type of the delete record????
+
+                $log.info('delete.', change);
+                if (util.isDefined(doc.type) && _eventlisteners.indexOf(doc.type) >= 0) {
+                  $rootScope.$apply(function () {
+                    $rootScope.$broadcast(doc.type + '.delete', change.id);
+                  });
+                }
+                */
               }
             }
 
@@ -171,10 +180,12 @@ angular.module('app')
               $rootScope.$apply(function () {
                 // $log.info('add:', evtInfo);
                 activeDb.get(evtInfo.id, function (err, doc) {
-                  $rootScope.$apply(function () {
-                    if (err) console.log(err);
-                    $rootScope.$broadcast(options.event + '.create', doc);
-                  })
+                  if (util.isDefined(doc.type) && _eventlisteners.indexOf(doc.type) >= 0) {
+                    $rootScope.$apply(function () {
+                      if (err) console.log(err);
+                      $rootScope.$broadcast(doc.type + '.create', doc);
+                    })
+                  }
                 });
               });
             })
@@ -195,6 +206,13 @@ angular.module('app')
       },
       removeListener : function(name) {
         $log.warn('Removing of pouch listener is not supported');
+      },
+      eraseAll : function() {
+        PouchDB.plugin(Erase);
+        return this.local.erase();
+      },
+      bulkAdd : function(info) {
+        return this.local.bulkDocs(info);
       }
     }
   }]);

@@ -1,17 +1,24 @@
+/**
+ * AppController defines how the app functions.
+ *
+ */
+
 
 angular.module('app')
   .controller('AppController', ['$scope', '$log', '$ionicHistory', '$timeout','user',
             function($scope, $log, $ionicHistory, $timeout, user) {
     var _vm = this;
-    this.user = {
-      name : '...'
-    };
 
+    /**
+     * implementation of the back button
+     */
     this.goBack = function() {
       $ionicHistory.goBack();
     };
 
     /**
+     * submitting a form with a button, not part of that form
+     *
      * problem: button is outside the form, so there is the normal load won't work
      * fix: press the (hidden) submit button on the form
      */

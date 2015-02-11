@@ -72,7 +72,28 @@ angular.module('app')
             controller: 'PlaylistCtrl'
           }
         }
+      })
+
+      // setting up the development options
+      .state('app.development', {
+        url : "/development",
+        views: {
+          'menuContent' : {
+            templateUrl : 'development/index.html'
+          }
+        }
+      })
+      .state('app.dev-state', {
+        url : "/dev-state",
+        views: {
+          'menuContent' : {
+            templateUrl : 'development/state.html'
+          }
+        }
       });
+
+
+    ;
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/agendas');
   });

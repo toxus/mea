@@ -60,3 +60,10 @@ label.item.has-error {
   -ms-flex-align: center;
   align-items: center;
 }
+.tx-development {
+  font-style: italic; !important;
+}
+.tx-list-label {
+  color : gray;
+  font-size: 70%;
+}

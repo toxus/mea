@@ -18,7 +18,7 @@ angular.module('app', ['ionic', 'ngCordova', 'starter.controllers','schemaForm',
       StatusBar.styleDefault();
     }
     user.init().then(function() {
-      db.connect();
+      db.connect(user.current().remoteDbUrl);
 
       if (navigator.splashScreen) {
         navigator.splashScreen.hide();
