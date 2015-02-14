@@ -156,6 +156,34 @@ angular.module('app')
         }
       },
       /**
+       * calculate the fields changed
+       * @param newData   the newly arrived data
+       * @param oldData   the data when we started to edit
+       * @param formDef   the fields shown
+       * @returns {       boolean|array field=>value}
+       */
+      dataChanges : function(newData, oldData, formDef) {
+        result = {};
+        for (var def in formDef) {
+          if (formDef.hasOwnProperty(def)) {
+            if (this.isDefined(newData[def])) {         // exist in new newData
+              if (this.isDefined(oldData[def])) {       // field was there
+                if (newData[def][0].value != oldData[def][0].value) { // changed
+                  result[def] = newData[def][0].value;
+                }
+              } else {                                  // it wasn't there
+                result[def] = newData[def][0].value;
+              }
+            } else if (this.isDefined(oldData[def])) {  // it was there but is now removed
+              result[def] = '';
+            }
+          }
+        }
+        var r = result.length == 0 ? false: result;
+        return r;
+      },
+
+      /**
        * generates the view out of the form definition
        *
        * ++++++++++ this version can NOT handle array structured data ++++++++++++

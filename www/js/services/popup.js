@@ -14,7 +14,7 @@ String.prototype.replaceAll = function(replace_what, replace_with) {
   }
 };
 angular.module('app')
-  .factory('popup', ['$ionicPopup', '$translate', 'util', function($ionicPopup, $translate, util) {
+  .factory('popup', ['$ionicPopup', '$translate', 'util', 'toastr', function($ionicPopup, $translate, util, toastr) {
     return {
       _translateMsg : function(message, params) {
         var msg = $translate.instant(message);
@@ -64,6 +64,30 @@ angular.module('app')
           cancelText : $translate.instant('Cancel')
         });
         return confirmPopup;
+      },
+      /**
+       * show a toaster message to the user
+       * @param type      success|info|error|warning
+       * @param message   html message
+       * @param params    key=>value pairs to be translated
+       * @param options   toaster options. See: https://github.com/Foxandxss/angular-toastr
+       */
+      toastr : function(type, message, params, title, options) {
+        var msg = this._translateMsg(message, params);
+        var title = $translate.instant(util.isDefined(title) ? title : '');
+        if (!util.isDefined(options)) {
+          options = {
+            allowHtml : true,
+            positionClass: 'toast-bottom-full-width'
+          };
+        }
+        switch (type) {
+          case 'error'    : toastr.error(msg, title, options ); break;
+          case 'warning'  : toastr.warning(msg, title, options ); break;
+          case 'success'  : toastr.success(msg, title, options ); break;
+          default : toastr.info(msg, title, options ); break;
+        }
       }
+
     }
   }]);

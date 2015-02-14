@@ -156,13 +156,35 @@ angular.module('app')
       $log.error('No $stateParams', $stateParams)
       popup.error('There is no state active.');
       $ionicHistory.goBack();
-    }
+    };
+
+     var onUpdate = $scope.$on('contact.update', angular.bind(this, function(event, doc) {
+        $log.log('got update event');
+        if (this.model._id === doc._id) {
+          $log.log('contact.updated', doc);
+          var changes = contact.changes(doc, _vm.model); // list changes or false
+          if (changes !== false) {
+            for (var field in changes) {                  // changes to our viewing overwriting the existing ones
+              if (changes.hasOwnProperty(field)) {
+                _vm.workingModel[field] = changes[field];
+              }
+            };
+            _vm.model._rev = doc._rev;                    // set revision to disk revision
+            _vm.viewFields = contact.viewFields(doc);
+            popup.toastr('warning', 'The information has been updated by an other user.');
+          }
+        }
+      }));
 
     /**
      * edit the current contact
      */
     this.edit = function() {
       $state.go('app.contact-edit', { contactId : _vm.model._id});
+    };
+
+    this.toast = function() {
+      popup.toastr('info', 'Something changed');
     };
 
     this.submit = function(form) {

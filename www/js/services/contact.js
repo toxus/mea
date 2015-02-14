@@ -161,6 +161,9 @@ angular.module('app')
       formToModel : function(data, record) {
         return util.modelToData(data, record, _vm._fields);
       },
+      changes : function(newData, orgData) {
+        return util.dataChanges(newData, orgData, _vm._fields);
+      },
       /**
        * convert the current information into the json form definition
        */

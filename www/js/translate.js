@@ -3,7 +3,7 @@ angular.module('app')
   $translateProvider.translations('en', {
     // menu.html
     'Agenda': 'Agenda',
-    'Contacts' : 'Contacts',
+    //'Contacts and Locations',
     'Todo'     : 'Todo',
     'Settings' : 'Preference',
     // contacts/index
@@ -14,6 +14,7 @@ angular.module('app')
     'name'  : 'name',
     'telephone' : 'telephone',
     'email' : 'email',
+    'The information has been updated by an other user.' : 'The information has been updated by an other user.',
     // contact.form
     'The name is required'  : 'The name is required',
     'Please fix the errors' : 'Please fix the errors'
@@ -21,8 +22,8 @@ angular.module('app')
 
   $translateProvider.translations('nl', {
     // menu.html
-    'Agenda': 'Agenda',
-    'Contacts' : 'Contacten',
+    'My Agenda': 'Mijn afspraken',
+    'Contacts and Locations' : 'Personen en plaatsen',
     'Todo'     : 'Aandachtspunten',
     'Settings' : 'Instellingen',
     // contacts/index
@@ -33,6 +34,7 @@ angular.module('app')
     'name'  : 'naam',
     'telephone' : 'telefoon',
     'email' : 'email',
+    'The information has been updated by an other user.' : 'De informatie is gewijzigd door een ander',
     // contact/form
     'The name is required' : 'De naam is verplicht',
     'Error saving information' : 'Fout bij het opslaan',
